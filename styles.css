@@ -1,0 +1,142 @@
+/* Styles généraux */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #000000, #1a1a1a);
+    color: #00BFFF;
+}
+
+/* Conteneur principal */
+.container {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Titre */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-in-out;
+    color: #00BFFF;
+}
+
+/* Timer */
+.timer {
+    font-size: 3rem;
+    margin: 20px auto;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 191, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+}
+
+/* Boutons */
+.controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.controls button {
+    background: #00BFFF;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.controls button:hover {
+    background: #009ACD;
+    transform: scale(1.1);
+}
+
+.controls button:active {
+    background: #007BA7;
+    transform: scale(1.05);
+}
+
+/* Temps cible */
+.target-time {
+    margin-top: 20px;
+}
+
+.target-time label {
+    font-size: 1rem;
+    color: #00BFFF;
+}
+
+.target-time input {
+    padding: 5px;
+    border: 1px solid #00BFFF;
+    border-radius: 5px;
+    margin-left: 10px;
+    width: 100px;
+    background: #1a1a1a;
+    color: #00BFFF;
+}
+
+/* Tours de piste */
+.laps {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.laps div {
+    background: rgba(0, 191, 255, 0.1);
+    padding: 5px;
+    margin: 5px 0;
+    border-radius: 5px;
+    color: #00BFFF;
+}
+
+/* Notification */
+.notification {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #00BFFF;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
