@@ -8,28 +8,34 @@
 </head>
 <body>
     <div class="container">
-        <div class="timer">00:00:00</div>
-        <button id="start">Démarrer</button>
-        <button id="pause">Pause</button>
+        <div class="timer">00:00:00:000</div> <!-- Ajout des millisecondes -->
+        <button id="play-pause">Démarrer</button>
         <button id="reset">Réinitialiser</button>
         <button id="save">Enregistrer</button>
-        <div class="sound-selector">
-            <label for="sound-select">Choisir un son de notification :</label>
-            <select id="sound-select">
-                <option value="sound1">Son 1</option>
-                <option value="sound2">Son 2</option>
-            </select>
-        </div>
-        <div class="notification-form">
+        <button id="notification-button">Définir une notification</button>
+        <div class="popup-overlay"></div>
+        <div class="popup">
             <h3>Définir une notification :</h3>
-            <form>
-                <label for="notification-time">Temps en secondes :</label>
+            <form class="notification-form">
+                <label for="notification-time">Temps :</label>
                 <input type="number" id="notification-time" required>
+                <select id="time-unit-select" class="time-unit-selector">
+                    <option value="seconds">Secondes</option>
+                    <option value="minutes">Minutes</option>
+                    <option value="hours">Heures</option>
+                </select>
                 <label for="notification-message">Message de notification :</label>
                 <textarea id="notification-message" rows="3" required></textarea>
+                <label for="sound-select">Choisir un son de notification :</label>
+                <select id="sound-select">
+                    <option value="sound1">Son 1</option>
+                    <option value="sound2">Son 2</option>
+                </select>
                 <button type="submit">Définir la notification</button>
             </form>
         </div>
+        <div class="error-message" style="display: none;">Erreur : Veuillez remplir tous les champs.</div>
+        <div class="confirmation-message" style="display: none;">Notification définie avec succès !</div>
         <div class="saved-times">
             <h3>Temps enregistrés :</h3>
             <ul></ul>
