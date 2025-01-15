@@ -60,3 +60,35 @@ button:active {
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
+
+.sound-selector {
+    margin-top: 20px;
+}
+
+.notification-form {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.notification-form input,
+.notification-form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.notification-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.notification-form button:hover {
+    background-color: #0056b3;
+}

@@ -13,6 +13,23 @@
         <button id="pause">Pause</button>
         <button id="reset">Réinitialiser</button>
         <button id="save">Enregistrer</button>
+        <div class="sound-selector">
+            <label for="sound-select">Choisir un son de notification :</label>
+            <select id="sound-select">
+                <option value="sound1">Son 1</option>
+                <option value="sound2">Son 2</option>
+            </select>
+        </div>
+        <div class="notification-form">
+            <h3>Définir une notification :</h3>
+            <form>
+                <label for="notification-time">Temps en secondes :</label>
+                <input type="number" id="notification-time" required>
+                <label for="notification-message">Message de notification :</label>
+                <textarea id="notification-message" rows="3" required></textarea>
+                <button type="submit">Définir la notification</button>
+            </form>
+        </div>
         <div class="saved-times">
             <h3>Temps enregistrés :</h3>
             <ul></ul>
