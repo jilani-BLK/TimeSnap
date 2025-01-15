@@ -6,6 +6,8 @@ const display = document.querySelector('.timer');
 const startButton = document.querySelector('#start');
 const pauseButton = document.querySelector('#pause');
 const resetButton = document.querySelector('#reset');
+const saveButton = document.querySelector('#save');
+const savedTimesList = document.querySelector('.saved-times ul');
 
 function updateDisplay() {
     const hours = Math.floor(elapsedTime / 3600);
@@ -38,8 +40,15 @@ function resetTimer() {
     updateDisplay();
 }
 
+function saveTime() {
+    const listItem = document.createElement('li');
+    listItem.textContent = display.textContent;
+    savedTimesList.appendChild(listItem);
+}
+
 startButton.addEventListener('click', startTimer);
 pauseButton.addEventListener('click', pauseTimer);
 resetButton.addEventListener('click', resetTimer);
+saveButton.addEventListener('click', saveTime);
 
 updateDisplay();

@@ -38,3 +38,25 @@ button:hover {
 button:active {
     background-color: #ccc;
 }
+
+.saved-times {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.saved-times h3 {
+    margin-bottom: 10px;
+}
+
+.saved-times ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.saved-times li {
+    background: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
