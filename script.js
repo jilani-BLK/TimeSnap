@@ -24,6 +24,7 @@ let notificationTime = null;
 let notificationMessage = '';
 
 const clearHistoryButton = document.querySelector('#clear-history');
+const clearHistoryCrossButton = document.querySelector('#clear-history-cross');
 const fullscreenButton = document.querySelector('#fullscreen-button');
 const toggleDarkModeButton = document.querySelector('#toggle-dark-mode');
 const darkModeIcon = document.querySelector('#dark-mode-icon');
@@ -42,13 +43,9 @@ function updateDisplay() {
 
 function playSound() {
     const selectedSound = soundSelect.value;
-    if (selectedSound === 'sound1') {
-        sound1.currentTime = 0; // Réinitialiser le son
-        sound1.play().then(() => console.log('Playing sound 1')).catch(error => console.error('Erreur lors de la lecture du son:', error));
-    } else if (selectedSound === 'sound2') {
-        sound2.currentTime = 0; // Réinitialiser le son
-        sound2.play().then(() => console.log('Playing sound 2')).catch(error => console.error('Erreur lors de la lecture du son:', error));
-    }
+    const sound = selectedSound === 'sound1' ? sound1 : sound2;
+    sound.currentTime = 0;
+    sound.play().catch(error => console.error('Erreur lors de la lecture du son:', error));
 }
 
 function checkNotification() {
@@ -60,21 +57,23 @@ function checkNotification() {
         } else {
             alert(notificationMessage);
         }
-        notificationTime = null; // Reset notification
+        notificationTime = null;
+        const savedTimesHeader = document.querySelector('.saved-times-header');
+        savedTimesHeader.classList.add('show'); // Ajouter la classe "show" pour l'animation
+        clearHistoryButton.style.display = 'inline-block';
     }
 }
 
 function updatePlayPauseIcon() {
     const icon = playPauseButton.querySelector('.icon');
     if (isRunning) {
-        icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; // Icône de pause
+        icon.classList.replace('fa-play', 'fa-pause');
         playPauseButton.textContent = ' Pause';
-        playPauseButton.prepend(icon);
     } else {
-        icon.innerHTML = '<path d="M8 5v14l11-7z"/>'; // Icône de démarrage
+        icon.classList.replace('fa-pause', 'fa-play');
         playPauseButton.textContent = ' Démarrer';
-        playPauseButton.prepend(icon);
     }
+    playPauseButton.prepend(icon);
 }
 
 function startTimer() {
@@ -104,15 +103,18 @@ function resetTimer() {
     elapsedTime = 0;
     startTime = 0;
     updateDisplay();
-    updatePlayPauseIcon(); // Mettre à jour l'icône lors de la réinitialisation
+    updatePlayPauseIcon();
 }
 
 function updateClearHistoryButton() {
     const savedTimes = JSON.parse(localStorage.getItem('savedTimes')) || [];
+    clearHistoryButton.style.display = savedTimes.length > 0 ? 'inline-block' : 'none';
+    clearHistoryCrossButton.style.display = savedTimes.length > 0 ? 'inline-block' : 'none'; // Afficher ou masquer l'icône de la poubelle
+    const savedTimesHeader = document.querySelector('.saved-times-header');
     if (savedTimes.length > 0) {
-        clearHistoryButton.style.display = 'inline-block';
+        savedTimesHeader.classList.add('show'); // Ajouter la classe "show" pour l'animation
     } else {
-        clearHistoryButton.style.display = 'none';
+        savedTimesHeader.classList.remove('show');
     }
 }
 
@@ -134,12 +136,12 @@ function saveTime() {
 
     updateClearHistoryButton();
 
-    // Ajustement : Garde la vue actuelle stable tout en assurant un défilement fluide
     const scrollableParent = savedTimesList.parentElement;
     const isScrolledToBottom = scrollableParent.scrollHeight - scrollableParent.scrollTop <= scrollableParent.clientHeight + 1;
     
+    li.classList.add('show'); // Ajouter la classe "show" pour l'animation
+
     if (isScrolledToBottom) {
-        // Défilement uniquement si l'utilisateur est en bas de la liste
         setTimeout(() => {
             li.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 100);
@@ -153,17 +155,14 @@ function clearHistory() {
 }
 
 function togglePlayPause() {
-    if (isRunning) {
-        pauseTimer();
-    } else {
-        startTimer();
-    }
+    isRunning ? pauseTimer() : startTimer();
 }
 
 playPauseButton.addEventListener('click', togglePlayPause);
 resetButton.addEventListener('click', resetTimer);
 saveButton.addEventListener('click', saveTime);
 clearHistoryButton.addEventListener('click', clearHistory);
+clearHistoryCrossButton.addEventListener('click', clearHistory);
 
 notificationButton.addEventListener('click', () => {
     popup.classList.add('active');
@@ -179,16 +178,9 @@ notificationForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const timeValue = parseInt(notificationTimeInput.value, 10);
     const timeUnit = timeUnitSelect.value;
-    if (timeUnit === 'minutes') {
-        notificationTime = timeValue * 60;
-    } else if (timeUnit === 'hours') {
-        notificationTime = timeValue * 3600;
-    } else {
-        notificationTime = timeValue;
-    }
+    notificationTime = timeUnit === 'minutes' ? timeValue * 60 : timeUnit === 'hours' ? timeValue * 3600 : timeValue;
     notificationMessage = notificationMessageInput.value;
 
-    // Afficher le message de confirmation avec animation
     const confirmationMessage = document.querySelector('.confirmation-message');
     confirmationMessage.textContent = 'Notification définie avec succès !';
     confirmationMessage.classList.add('show');
@@ -212,15 +204,7 @@ fullscreenButton.addEventListener('click', () => {
 
 toggleDarkModeButton.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
-    if (document.body.classList.contains('dark-mode')) {
-        darkModeIcon.innerHTML = '<path d="M12 2a9.93 9.93 0 0 0-7.07 2.93A9.93 9.93 0 0 0 2 12c0 2.76 1.12 5.26 2.93 7.07A9.93 9.93 0 0 0 12 22c2.76 0 5.26-1.12 7.07-2.93A9.93 9.93 0 0 0 22 12c0-2.76-1.12-5.26-2.93-7.07A9.93 9.93 0 0 0 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>'; // Icône de lune
-        toggleDarkModeButton.textContent = ' Mode Clair';
-        toggleDarkModeButton.prepend(darkModeIcon);
-    } else {
-        darkModeIcon.innerHTML = '<path d="M6.76 4.84l-1.8-1.79-1.42 1.41 1.79 1.8-1.79 1.8 1.42 1.41 1.8-1.79 1.8 1.79 1.41-1.41-1.79-1.8 1.79-1.8-1.41-1.41-1.8 1.79zm10.48 0l1.8-1.79 1.42 1.41-1.79 1.8 1.79 1.8-1.42 1.41-1.8-1.79-1.8 1.79-1.41-1.41 1.79-1.8-1.79-1.8 1.41-1.41 1.8 1.79zM12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/>'; // Icône de soleil
-        toggleDarkModeButton.textContent = ' Mode Sombre';
-        toggleDarkModeButton.prepend(darkModeIcon);
-    }
+    darkModeIcon.classList.replace(document.body.classList.contains('dark-mode') ? 'fa-moon' : 'fa-sun', document.body.classList.contains('dark-mode') ? 'fa-sun' : 'fa-moon');
 });
 
 window.addEventListener('load', () => {
@@ -232,7 +216,10 @@ window.addEventListener('load', () => {
     });
     updateDisplay();
     updateClearHistoryButton();
-    updatePlayPauseIcon(); // Mettre à jour l'icône au chargement
+    updatePlayPauseIcon();
+
+    document.body.classList.add('dark-mode');
+    darkModeIcon.classList.replace('fa-moon', 'fa-sun');
 });
 
 if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {

@@ -3,9 +3,6 @@ html, body {
     width: 100%;
     margin: 0;
     padding: 0;
-}
-
-body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
@@ -22,8 +19,8 @@ body {
 }
 
 .timer {
-    font-size: 36px; /* Ajusté pour inclure les millisecondes */
-    margin-bottom: 20px;
+    font-size: 36px;
+    margin-bottom: 100px;
 }
 
 button {
@@ -33,8 +30,8 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    background-color: #ddd; /* Couleur neutre */
+    transition: background-color 0.3s, transform 0.3s;
+    background-color: #ddd;
     color: black;
 }
 
@@ -45,16 +42,17 @@ button .icon {
 }
 
 button:hover {
-    background-color: #ccc; /* Couleur neutre plus claire */
+    background-color: #ccc;
+    transform: scale(1.05);
 }
 
 button:hover .icon {
     transform: scale(1.2);
-    color: black;
 }
 
 button:active {
-    background-color: #bbb; /* Couleur neutre plus foncée */
+    background-color: #bbb;
+    transform: scale(0.95);
 }
 
 .saved-times {
@@ -62,18 +60,13 @@ button:active {
     text-align: left;
 }
 
-.saved-times-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .saved-times ul {
-    max-height: 200px; /* Limite la hauteur de la liste */
-    overflow-y: auto; /* Ajoute une barre de défilement si nécessaire */
+    max-height: 200px;
+    overflow-y: auto;
     list-style-type: none;
     padding: 0;
-    scroll-behavior: smooth; /* Ajoute un défilement fluide */
+    scroll-behavior: smooth;
+    margin-top: 10px; /* Ajouter un espace en haut pour éviter le décalage */
 }
 
 .saved-times li {
@@ -82,10 +75,32 @@ button:active {
     margin-bottom: 5px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Ajouter une transition pour l'animation */
 }
 
-.sound-selector {
-    margin-top: 20px;
+.saved-times li.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.saved-times-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px; /* Ajouter un espace en bas */
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; /* Ajouter une transition pour l'animation */
+    height: 0; /* Ajouter une hauteur fixe pour éviter le décalage */
+    overflow: hidden; /* Masquer le contenu lorsque la hauteur est 0 */
+}
+
+.saved-times-header.show {
+    opacity: 1;
+    height: auto; /* Ajuster la hauteur lorsque visible */
+    overflow: visible; /* Afficher le contenu lorsque visible */
 }
 
 .notification-form {
@@ -115,42 +130,28 @@ button:active {
 .notification-form .form-group select {
     flex: 1;
     margin-left: 10px;
-    width: auto; /* Réduire la longueur du bouton */
-}
-
-.notification-form .form-group span {
-    margin-left: 5px; /* Décaler à gauche */
-}
-
-.notification-form .form-group input {
-    width: 100%;
-    margin-top: 10px;
-}
-
-.notification-form .form-group select {
-    flex: 1;
-    margin-left: 10px;
-}
-
-.notification-form .form-group input,
-.notification-form .form-group select {
-    flex: 2;
-    margin-left: 10px;
+    width: auto;
 }
 
 .notification-form button {
     width: 100%;
     padding: 10px;
-    background-color: #ddd; /* Couleur neutre */
+    background-color: #ddd;
     color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .notification-form button:hover {
-    background-color: #ccc; /* Couleur neutre plus claire */
+    background-color: #ccc;
+    transform: scale(1.05);
+}
+
+.notification-form button:active {
+    background-color: #bbb;
+    transform: scale(0.95);
 }
 
 .popup {
@@ -159,18 +160,91 @@ button:active {
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
-    padding: 20px;
+    padding: 20px 30px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    display: none; /* Caché par défaut */
+    display: none;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    max-width: 400px;
+    width: 90%;
 }
 
 .popup.active {
     display: block;
     opacity: 1;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.popup h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    text-align: center;
+    color: #333;
+}
+
+.popup .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.popup .form-group .time-unit-selector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.popup .form-group label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.popup .form-group input,
+.popup .form-group select,
+.popup textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    resize: none;
+}
+
+.popup .form-group select {
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.popup .form-group select:hover {
+    background-color: #e9e9e9;
+}
+
+.popup button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 16px;
+}
+
+.popup button[type="submit"]:hover {
+    background-color: #666;
+    transform: scale(1.05);
+}
+
+.popup button[type="submit"]:active {
+    background-color: #333;
+    transform: scale(0.95);
 }
 
 .popup-overlay {
@@ -181,7 +255,7 @@ button:active {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
-    display: none; /* Caché par défaut */
+    display: none;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -209,24 +283,51 @@ button:active {
 
 .clear-history {
     margin-top: 0;
-    background-color: #dc3545;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     padding: 5px 10px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
+    background-color: black;
+    align-self: flex-end; /* Aligner à droite */
 }
 
 .clear-history:hover {
-    background-color: #c82333;
+    color: black;
+}
+
+.dark-mode .clear-history:hover {
+    color: white;
+}
+
+.clear-history-cross {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s;
+    display: none; /* Masquer par défaut */
+}
+
+.clear-history-cross.show {
+    display: inline-block; /* Afficher lorsque visible */
+}
+
+.clear-history-cross .icon {
+    font-size: 20px; /* Ajuster la taille de l'icône */
+}
+
+.clear-history-cross:hover {
+    color: darkred;
 }
 
 .fullscreen-button {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #ddd; /* Couleur #ddd */
+    background-color: black;
     color: white;
     border: none;
     border-radius: 50%;
@@ -239,14 +340,11 @@ button:active {
     transition: background-color 0.3s;
 }
 
-.fullscreen-button:hover {
-    background-color: #bbb; /* Couleur plus foncée au survol */
-}
-
 .fullscreen-button .icon {
-    fill: white; /* Couleur blanche pour l'icône */
-    width: 32px; /* Augmenter la taille de l'icône */
-    height: 32px; /* Augmenter la taille de l'icône */
+    fill: white;
+    width: 24px;
+    height: 15px;
+    margin: 0;
 }
 
 .dark-mode {
@@ -254,7 +352,6 @@ button:active {
     color: #ffffff;
 }
 
-.dark-mode .timer,
 .dark-mode button,
 .dark-mode .saved-times li,
 .dark-mode .notification-form input,
@@ -278,29 +375,84 @@ button:active {
 }
 
 .dark-mode .icon {
-    fill: white; /* Couleur blanche pour les icônes en mode sombre */
+    fill: white;
+}
+
+.dark-mode .clear-history {
+    background-color: #333333;
+}
+
+.dark-mode button:hover .icon {
+    color: white;
 }
 
 .toggle-dark-mode {
     position: fixed;
     top: 20px;
     right: 20px;
-    background-color: #ddd; /* Couleur neutre */
+    background-color: #ddd;
     color: black;
     border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
+    border-radius: 50%;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .toggle-dark-mode:hover {
-    background-color: #ccc; /* Couleur neutre plus claire */
+    background-color: #ccc;
+    transform: scale(1.05);
+}
+
+.toggle-dark-mode:active {
+    background-color: #bbb;
+    transform: scale(0.95);
 }
 
 .toggle-dark-mode .icon {
-    fill: black; /* Couleur noire pour l'icône */
+    fill: black;
     width: 24px;
-    height: 24px;
-    margin-right: 8px;
+    height: 15px;
+    margin: 0;
+}
+
+.toggle-dark-mode:hover .icon {
+    fill: black; /* Changer la couleur de l'icône en noir lors du survol */
+}
+
+.time-input-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.time-input-group select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.time-input-group span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.time-input-group input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.dark-mode .popup h3 {
+    color: #ffffff;
 }
