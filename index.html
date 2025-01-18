@@ -10,52 +10,59 @@
 <body>
     <div class="container">
         <div class="timer">00:00:00:000</div> 
-        <button class="toggle-dark-mode" id="toggle-dark-mode">
-            <i class="fas fa-moon icon" id="dark-mode-icon"></i>
-        </button>
-        <button id="play-pause">
-            <i class="fas fa-play icon"></i>
-            <i class="fas fa-pause icon" style="display: none;"></i>
-            Démarrer
-        </button>
-        <button id="reset">
-            <i class="fas fa-redo icon"></i>
-            Réinitialiser
-        </button>
-        <button id="save">
-            <i class="fas fa-save icon"></i>
-            Enregistrer
-        </button>
-        <button id="notification-button">
-            <i class="fas fa-bell icon"></i>
-            Définir une alarme
-        </button>
-        <button class="clear-history-cross" id="clear-history-cross" style="display: none;">
-            <i class="fas fa-trash icon"></i> <!-- Changer l'icône pour une poubelle -->
-        </button>
+        <div class="button-container">
+            <button id="play-pause">
+                <i class="fas fa-play icon"></i>
+                <i class="fas fa-pause icon" style="display: none;"></i>
+                Démarrer
+            </button>
+            <button class="toggle-dark-mode" id="toggle-dark-mode">
+                <i class="fas fa-moon icon" id="dark-mode-icon"></i>
+            </button>
+            <button id="reset">
+                <i class="fas fa-redo icon"></i>
+                Réinitialiser
+            </button>
+            <button id="save">
+                <i class="fas fa-save icon"></i>
+                Enregistrer
+            </button>
+            <button id="notification-button">
+                <i class="fas fa-bell icon"></i>
+                Définir une alarme
+            </button>
+            <button class="clear-history-cross" id="clear-history-cross" style="display: none;">
+                <i class="fas fa-trash icon"></i> <!-- Changer l'icône pour une poubelle -->
+            </button>
+        </div>
         <div class="popup-overlay"></div>
         <div class="popup">
             <h3>Définir une alarme :</h3>
             <form class="notification-form">
                 <div class="form-group">
-                    <label for="notification-time">Temps</label>
-                    <div class="time-unit-selector">
-                        <select id="time-unit-select" class="time-unit-selector">
-                            <option value="seconds">Secondes</option>
-                            <option value="minutes">Minutes</option>
-                            <option value="hours">Heures</option>
-                        </select>
-                        <span>:</span>
-                    </div>
+                    <label for="time-unit-select">Temps en</label>
+                    <select id="time-unit-select">
+                        <option value="seconds">Secondes</option>
+                        <option value="minutes">Minutes</option>
+                        <option value="hours">Heures</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <input type="number" id="notification-time" required placeholder="0">
                 </div>
-                <label for="notification-message">Message d'alarme :</label>
-                <textarea id="notification-message" rows="3" required></textarea>
-                <label for="sound-select">Choisir un son de notification :</label>
-                <select id="sound-select">
-                    <option value="sound1">Son 1</option>
-                    <option value="sound2">Son 2</option>
-                </select>
+                <div class="form-group">
+                    <label for="notification-message">Message d'alarme :</label>
+                </div>
+                <div class="form-group">
+                    <textarea id="notification-message" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="sound-select">Choisir un son de notification :</label>
+                    <select id="sound-select">
+                        <option value="sound1">Son 1</option>
+                        <option value="sound2">Son 2</option>
+                    </select>
+                </div>
                 <button type="submit">Définir la notification</button>
             </form>
         </div>

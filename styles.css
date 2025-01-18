@@ -1,3 +1,4 @@
+/* Global Styles */
 html, body {
     height: 100%;
     width: 100%;
@@ -10,6 +11,7 @@ html, body {
     background-color: #f0f0f0;
 }
 
+/* Container Styles */
 .container {
     text-align: center;
     padding: 20px;
@@ -18,11 +20,13 @@ html, body {
     overflow: auto;
 }
 
+/* Timer Styles */
 .timer {
     font-size: 36px;
     margin-bottom: 100px;
 }
 
+/* Button Styles */
 button {
     font-size: 16px;
     padding: 10px 20px;
@@ -55,6 +59,16 @@ button:active {
     transform: scale(0.95);
 }
 
+/* Button Container Styles */
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Saved Times Styles */
 .saved-times {
     margin-top: 20px;
     text-align: left;
@@ -66,7 +80,7 @@ button:active {
     list-style-type: none;
     padding: 0;
     scroll-behavior: smooth;
-    margin-top: 10px; /* Ajouter un espace en haut pour éviter le décalage */
+    margin-top: 10px;
 }
 
 .saved-times li {
@@ -77,7 +91,7 @@ button:active {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Ajouter une transition pour l'animation */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .saved-times li.show {
@@ -85,24 +99,26 @@ button:active {
     transform: translateY(0);
 }
 
+/* Saved Times Header Styles */
 .saved-times-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-bottom: 10px; /* Ajouter un espace en bas */
+    margin-bottom: 10px;
     opacity: 0;
-    transition: opacity 0.5s ease-in-out; /* Ajouter une transition pour l'animation */
-    height: 0; /* Ajouter une hauteur fixe pour éviter le décalage */
-    overflow: hidden; /* Masquer le contenu lorsque la hauteur est 0 */
+    transition: opacity 0.5s ease-in-out;
+    height: 0;
+    overflow: hidden;
 }
 
 .saved-times-header.show {
     opacity: 1;
-    height: auto; /* Ajuster la hauteur lorsque visible */
-    overflow: visible; /* Afficher le contenu lorsque visible */
+    height: auto;
+    overflow: visible;
 }
 
+/* Notification Form Styles */
 .notification-form {
     margin-top: 20px;
     text-align: left;
@@ -133,17 +149,6 @@ button:active {
     width: auto;
 }
 
-.notification-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #ddd;
-    color: black;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
 .notification-form button:hover {
     background-color: #ccc;
     transform: scale(1.05);
@@ -154,21 +159,24 @@ button:active {
     transform: scale(0.95);
 }
 
+/* Popup Styles */
 .popup {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
-    padding: 20px 30px;
+    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     display: none;
     opacity: 0;
     transition: opacity 0.3s ease, transform 0.3s ease;
     max-width: 400px;
     width: 90%;
+    font-size: 16px;
+    border: 2px solid #444;
 }
 
 .popup.active {
@@ -187,15 +195,19 @@ button:active {
 
 .popup .form-group {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: space-between; /* Ajouter cette ligne */
     margin-bottom: 10px;
 }
 
 .popup .form-group .time-unit-selector {
     display: flex;
     align-items: center;
+    gap: 5px;
     margin-bottom: 5px;
+    font-size: 16px; /* Augmenter la taille de la police */
+    border: 2px solid #444; /* Ajouter une bordure plus visible */
+    padding: 10px; /* Ajouter du padding pour plus de visibilité */
 }
 
 .popup .form-group label {
@@ -216,13 +228,7 @@ button:active {
 }
 
 .popup .form-group select {
-    background-color: #f9f9f9;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.popup .form-group select:hover {
-    background-color: #e9e9e9;
+    padding-right: 10px; /* Ajouter cette ligne pour décaler le bouton sur la gauche */
 }
 
 .popup button[type="submit"] {
@@ -247,6 +253,7 @@ button:active {
     transform: scale(0.95);
 }
 
+/* Popup Overlay Styles */
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -265,6 +272,7 @@ button:active {
     opacity: 1;
 }
 
+/* Error and Confirmation Messages */
 .error-message {
     color: red;
     margin-top: 10px;
@@ -281,6 +289,7 @@ button:active {
     opacity: 1;
 }
 
+/* Clear History Button Styles */
 .clear-history {
     margin-top: 0;
     color: white;
@@ -290,7 +299,7 @@ button:active {
     padding: 5px 10px;
     transition: background-color 0.3s, color 0.3s;
     background-color: black;
-    align-self: flex-end; /* Aligner à droite */
+    align-self: flex-end;
 }
 
 .clear-history:hover {
@@ -306,23 +315,22 @@ button:active {
     border: none;
     font-size: 20px;
     cursor: pointer;
-    padding: 5px;
+    padding: 8px;
     transition: color 0.3s;
-    display: none; /* Masquer par défaut */
+    display: none;
 }
 
 .clear-history-cross.show {
-    display: inline-block; /* Afficher lorsque visible */
+    display: inline-block;
 }
 
 .clear-history-cross .icon {
-    font-size: 20px; /* Ajuster la taille de l'icône */
+    font-size: 15px;
+    padding-left: 7px;
+    padding-bottom: 4px;
 }
 
-.clear-history-cross:hover {
-    color: darkred;
-}
-
+/* Fullscreen Button Styles */
 .fullscreen-button {
     position: fixed;
     bottom: 20px;
@@ -347,6 +355,7 @@ button:active {
     margin: 0;
 }
 
+/* Dark Mode Styles */
 .dark-mode {
     background-color: #121212;
     color: #ffffff;
@@ -386,6 +395,7 @@ button:active {
     color: white;
 }
 
+/* Toggle Dark Mode Button Styles */
 .toggle-dark-mode {
     position: fixed;
     top: 20px;
@@ -422,9 +432,10 @@ button:active {
 }
 
 .toggle-dark-mode:hover .icon {
-    fill: black; /* Changer la couleur de l'icône en noir lors du survol */
+    fill: black;
 }
 
+/* Time Input Group Styles */
 .time-input-group {
     display: flex;
     align-items: center;
@@ -453,6 +464,117 @@ button:active {
     font-size: 14px;
 }
 
+/* Dark Mode Popup Header Styles */
 .dark-mode .popup h3 {
     color: #ffffff;
+}
+
+/* Play Pause Button Styles */
+#play-pause {
+    position: static;
+    top: auto;
+    left: auto;
+    z-index: auto;
+}
+
+/* Supprimer les styles de flou */
+body.blur-background {
+    filter: none;
+    transition: none;
+}
+
+body.blur-background .popup,
+body.blur-background .popup-overlay {
+    filter: none;
+    z-index: auto;
+    position: static;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .timer {
+        font-size: 24px;
+        margin-bottom: 50px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 8px 16px;
+        margin: 3px;
+    }
+
+    .button-container {
+        gap: 5px;
+    }
+
+    .saved-times ul {
+        max-height: 150px;
+    }
+
+    .popup {
+        padding: 15px;
+        max-width: 90%;
+    }
+
+    .popup h3 {
+        font-size: 1.2em;
+    }
+
+    .popup .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .popup .form-group label,
+    .popup .form-group select,
+    .popup .form-group input,
+    .popup .form-group textarea {
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .fullscreen-button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .toggle-dark-mode {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .timer {
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+
+    button {
+        font-size: 12px;
+        padding: 6px 12px;
+        margin: 2px;
+    }
+
+    .saved-times ul {
+        max-height: 100px;
+    }
+
+    .popup {
+        padding: 10px;
+    }
+
+    .popup h3 {
+        font-size: 1em;
+    }
+
+    .fullscreen-button,
+    .toggle-dark-mode {
+        width: 30px;
+        height: 30px;
+    }
 }
