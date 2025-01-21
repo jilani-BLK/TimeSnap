@@ -53,14 +53,47 @@ function checkNotification() {
     if (notificationTime !== null && totalMilliseconds >= notificationTime * 1000) {
         playSound();
         if (Notification.permission === 'granted') {
-            new Notification(notificationMessage);
+            new Notification(notificationMessage, {
+                body: `Temps écoulé: ${notificationTime} secondes`,
+                icon: 'notification-icon.png' // Assurez-vous d'avoir une icône de notification
+            });
         } else {
             alert(notificationMessage);
         }
         notificationTime = null;
-        const savedTimesHeader = document.querySelector('.saved-times-header');
-        savedTimesHeader.classList.add('show'); // Ajouter la classe "show" pour l'animation
+         const savedTimesHeader = document.querySelector('.saved-times-header');
+        savedTimesHeader.classList.add('show');
         clearHistoryButton.style.display = 'inline-block';
+    }
+    // Ajouter la vérification pour les notifications en arrière-plan
+    if (document.hidden && Notification.permission === 'granted') {
+        new Notification('TimeSnap', {
+            body: 'L\'alarme a sonné!',
+            icon: 'notification-icon.png' // Assurez-vous d'avoir une icône de notification
+        });
+    }
+}
+
+function updateNotificationReminder() {
+    const notificationReminder = document.getElementById('notification-reminder');
+    const notificationTimeRemaining = document.getElementById('notification-time-remaining');
+    const notificationTitle = document.getElementById('notification-title');
+
+    if (notificationTime !== null) {
+        const totalMilliseconds = isRunning ? Date.now() - startTime + elapsedTime : elapsedTime;
+        const remainingTime = notificationTime * 1000 - totalMilliseconds;
+        if (remainingTime > 0) {
+            const hours = Math.floor(remainingTime / 3600000);
+            const minutes = Math.floor((remainingTime % 3600000) / 60000);
+            const seconds = Math.floor((remainingTime % 60000) / 1000);
+            notificationTimeRemaining.textContent = `Temps restant: ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            notificationTitle.textContent = `Titre: ${notificationMessage}`;
+            notificationReminder.classList.add('show');
+        } else {
+            notificationReminder.classList.remove('show');
+        }
+    } else {
+        notificationReminder.classList.remove('show');
     }
 }
 
@@ -76,6 +109,14 @@ function updatePlayPauseIcon() {
     playPauseButton.prepend(icon);
 }
 
+function applyPauseStyles() {
+    document.body.classList.add('paused');
+}
+
+function removePauseStyles() {
+    document.body.classList.remove('paused');
+}
+
 function startTimer() {
     if (!isRunning) {
         isRunning = true;
@@ -83,8 +124,10 @@ function startTimer() {
         timer = setInterval(() => {
             updateDisplay();
             checkNotification();
+            updateNotificationReminder();
         }, 10);
         updatePlayPauseIcon();
+        removePauseStyles();
     }
 }
 
@@ -94,6 +137,7 @@ function pauseTimer() {
         elapsedTime += Date.now() - startTime;
         clearInterval(timer);
         updatePlayPauseIcon();
+        applyPauseStyles();
     }
 }
 
@@ -104,22 +148,24 @@ function resetTimer() {
     startTime = 0;
     updateDisplay();
     updatePlayPauseIcon();
+    removePauseStyles();
+    document.body.classList.remove('paused');
 }
 
 function updateClearHistoryButton() {
     const savedTimes = JSON.parse(localStorage.getItem('savedTimes')) || [];
     clearHistoryButton.style.display = savedTimes.length > 0 ? 'inline-block' : 'none';
-    clearHistoryCrossButton.style.display = savedTimes.length > 0 ? 'inline-block' : 'none'; // Afficher ou masquer l'icône de la poubelle
+    clearHistoryCrossButton.style.display = savedTimes.length > 0 ? 'inline-block' : 'none';
     const savedTimesHeader = document.querySelector('.saved-times-header');
     if (savedTimes.length > 0) {
-        savedTimesHeader.classList.add('show'); // Ajouter la classe "show" pour l'animation
+        savedTimesHeader.classList.add('show');
     } else {
         savedTimesHeader.classList.remove('show');
     }
 }
 
 function saveTime() {
-    const totalMilliseconds = isRunning ? Date.now() - startTime + elapsedTime : elapsedTime;
+    const totalMilliseconds = isRunning ? Date.now() - startTime + elapsedTime : elapsedTime; // Utiliser le temps total écoulé
     const hours = Math.floor(totalMilliseconds / 3600000);
     const minutes = Math.floor((totalMilliseconds % 3600000) / 60000);
     const seconds = Math.floor((totalMilliseconds % 60000) / 1000);
@@ -139,9 +185,9 @@ function saveTime() {
     const scrollableParent = savedTimesList.parentElement;
     const isScrolledToBottom = scrollableParent.scrollHeight - scrollableParent.scrollTop <= scrollableParent.clientHeight + 1;
     
-    li.classList.add('show'); // Ajouter la classe "show" pour l'animation
+    li.classList.add('show');
 
-    if (isScrolledToBottom) {
+    if (isScrolledToBottom && savedTimesList.scrollHeight > savedTimesList.clientHeight) { // Éviter le défilement dès le premier enregistrement
         setTimeout(() => {
             li.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 100);
@@ -190,6 +236,16 @@ notificationForm.addEventListener('submit', (e) => {
 
     popup.classList.remove('active');
     popupOverlay.classList.remove('active');
+
+    updateNotificationReminder();
+
+    if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+        Notification.requestPermission().then(permission => {
+            if (permission !== 'granted') {
+                alert('Les notifications ne sont pas autorisées.');
+            }
+        });
+    }
 });
 
 fullscreenButton.addEventListener('click', () => {
@@ -220,6 +276,36 @@ window.addEventListener('load', () => {
 
     document.body.classList.add('dark-mode');
     darkModeIcon.classList.replace('fa-moon', 'fa-sun');
+
+    if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+        const permissionPopup = document.querySelector('.notification-permission-popup');
+        const permissionOverlay = document.querySelector('.notification-permission-overlay');
+        permissionPopup.classList.add('active');
+        permissionOverlay.classList.add('active');
+
+        document.getElementById('allow-notifications').addEventListener('click', () => {
+            Notification.requestPermission().then(permission => {
+                if (permission !== 'granted') {
+                    alert('Les notifications ne sont pas autorisées.');
+                }
+                permissionPopup.classList.remove('active');
+                permissionOverlay.classList.remove('active');
+            });
+        });
+
+        document.getElementById('deny-notifications').addEventListener('click', () => {
+            permissionPopup.classList.remove('active');
+            permissionOverlay.classList.remove('active');
+        });
+    }
+
+    if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+        Notification.requestPermission().then(permission => {
+            if (permission !== 'granted') {
+                alert('Les notifications ne sont pas autorisées.');
+            }
+        });
+    }
 });
 
 if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {

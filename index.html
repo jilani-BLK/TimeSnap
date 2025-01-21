@@ -9,6 +9,11 @@
 </head>
 <body>
     <div class="container">
+        <div class="notification-reminder" id="notification-reminder">
+            <span id="notification-title"></span>
+            <br> <!-- Ajouté pour l'espace -->
+            <span id="notification-time-remaining"></span>
+        </div>
         <div class="timer">00:00:00:000</div> 
         <div class="button-container">
             <button id="play-pause">
@@ -32,7 +37,7 @@
                 Définir une alarme
             </button>
             <button class="clear-history-cross" id="clear-history-cross" style="display: none;">
-                <i class="fas fa-trash icon"></i> <!-- Changer l'icône pour une poubelle -->
+                <i class="fas fa-trash icon"></i>
             </button>
         </div>
         <div class="popup-overlay"></div>
@@ -69,7 +74,7 @@
         <div class="error-message" style="display: none;">Erreur : Veuillez remplir tous les champs.</div>
         <div class="confirmation-message" style="display: none;">Notification définie avec succès !</div>
         <div class="saved-times">
-            <div class="saved-times-header" style="display: none;"> <!-- Masquer par défaut -->
+            <div class="saved-times-header" style="display: none;">
                 <h3>Temps enregistrés :</h3>
                 <button id="clear-history" class="clear-history" style="display: none;">Effacer l'historique</button>
             </div>
@@ -78,6 +83,13 @@
         <button class="fullscreen-button" id="fullscreen-button">
             <i class="fas fa-expand icon"></i>
         </button>
+    </div>
+    <div class="popup-overlay notification-permission-overlay"></div>
+    <div class="popup notification-permission-popup">
+        <h3>Autoriser les notifications</h3>
+        <p>Voulez-vous autoriser les notifications pour cette application ?</p>
+        <button id="allow-notifications">Autoriser</button>
+        <button id="deny-notifications">Refuser</button>
     </div>
     <script src="script.js"></script>
 </body>
